@@ -1,7 +1,7 @@
 import emoji from "react-easy-emoji";
 
 const illustration = {
-  animated: true // Set to false to use static SVG
+  animated: true
 };
 
 // Greetings
@@ -9,8 +9,7 @@ const illustration = {
 const greeting = {
   username: "Mahsa Eskandari",
   title: "Hello",
-    "I'm <b>Mahsa Eskandari</b>, a passionate Game Developer dedicated to crafting immersive, high-performance experiences."
-  ),
+  subtitle: "I'm <b>Mahsa Eskandari</b>, a passionate Game Developer dedicated to crafting immersive, high-performance experiences.",
   resumeLink:
     "resume/MahsaEskandari_Resume.pdf", // Set to empty to hide the button
   display: true
@@ -233,7 +232,6 @@ export {
   greeting,
   socialMediaLinks,
   skillsSection,
-  educationInfo,
   techStack,
   openSource,
   featuredProjects,
