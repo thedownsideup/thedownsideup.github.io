@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "prettier": "^2.3.1"
   }
 }
