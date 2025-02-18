@@ -41,7 +41,7 @@ export default function Projects() {
   }
   if (
     !(typeof repo === "string" || repo instanceof String) &&
-    openSource.displayonlyopensource
+    openSource.display
   ) {
     return (
       <Suspense fallback={renderLoader()}>
@@ -60,7 +60,7 @@ export default function Projects() {
             })}
           </div>
           <Button
-            text={"See More"}
+            text={"More Projects"}
             className="project-button"
             href={socialMediaLinks.github}
             newTab={true}
