@@ -9,19 +9,18 @@ const illustration = {
 const greeting = {
   username: "Mahsa Eskandari",
   title: "Hello",
-  subtitle: "I'm <b>Mahsa Eskandari</b>, a passionate Game Developer dedicated to crafting immersive, high-performance experiences.",
-  resumeLink:
-    "resume/MahsaEskandari_Resume.pdf", // Set to empty to hide the button
+  subtitle:
+    "I'm <b>Mahsa Eskandari</b>, a passionate Game Developer dedicated to crafting immersive, high-performance experiences.",
+  resumeLink: "resume/MahsaEskandari_Resume.pdf", // Set to empty to hide the button
   display: true
 };
 
 // Contact Info
 
 const contactInfo = {
-  subtitle:
-    "Got an interesting project? Feel free to drop me an email.",
+  subtitle: "Got an interesting project? Feel free to drop me an email.",
   email_address: "mahsa.eskandari1998@gmail.com",
-    display: true
+  display: true
 };
 
 // Social Media Links
@@ -38,8 +37,10 @@ const skillsSection = {
   title: "Skills",
   skills: [
     emoji("⚡ Programming Languages: C#, C++, Python, JavaScript, HTML5, CSS"),
-    emoji("⚡ Software Design: SOLID, Clean Code, Game Design Patterns, Software Architecture"),
-	emoji("⚡ Game Engines: Unity, Unreal Engine 5"),
+    emoji(
+      "⚡ Software Design: SOLID, Clean Code, Game Design Patterns, Software Architecture"
+    ),
+    emoji("⚡ Game Engines: Unity, Unreal Engine 5"),
     emoji("⚡ Fields: Gameplay, Tools, User Interface, Shaders"),
     emoji("⚡ Tools: Git, Fork, SourceTree, Trello, Jira")
   ],
@@ -79,7 +80,6 @@ https://fontawesome.com/icons?d=gallery */
 
 // talk about education and such
 
-
 // TechStack
 
 const techStack = {
@@ -89,11 +89,11 @@ const techStack = {
       Stack: "Game Software Design",
       progressPercentage: "100%"
     },
-	{
+    {
       Stack: "C#",
       progressPercentage: "100%"
     },
-	{
+    {
       Stack: "Unity",
       progressPercentage: "100%"
     },
@@ -101,7 +101,7 @@ const techStack = {
       Stack: "C++",
       progressPercentage: "50%"
     },
-	{
+    {
       Stack: "Unreal Engine",
       progressPercentage: "70%"
     },
@@ -127,9 +127,10 @@ const featuredProjects = {
   title: "Featured Projects",
   projects: [
     {
-       image: require("./assets/images/DreamHome.png"),
+      image: require("./assets/images/DreamHome.png"),
       projectName: "Dream Home",
-      projectDesc: "A recently released story-driven mobile game with a mix of various mini-games and an enchanting gamification system to keep things engaging.",
+      projectDesc:
+        "A recently released story-driven mobile game with a mix of various mini-games and an enchanting gamification system to keep things engaging.",
       footerLink: [
         {
           name: "Check out",
@@ -138,10 +139,11 @@ const featuredProjects = {
         //  you can add extra buttons here.
       ]
     },
-	{
-       image: require("./assets/images/Golmorad.png"),
+    {
+      image: require("./assets/images/Golmorad.png"),
       projectName: "Golmorad",
-      projectDesc: "A popular match-3 game with a captivating storyline and various dynamic live-ops, enjoyed by millions of users.",
+      projectDesc:
+        "A popular match-3 game with a captivating storyline and various dynamic live-ops, enjoyed by millions of users.",
       footerLink: [
         {
           name: "Check out",
@@ -150,10 +152,11 @@ const featuredProjects = {
         //  you can add extra buttons here.
       ]
     },
-	{
-       image: require("./assets/images/NeuroCare.png"),
+    {
+      image: require("./assets/images/NeuroCare.png"),
       projectName: "NEUROCARE",
-      projectDesc: " Thesis Project: Design and implementation of a set of cognitive games to evaluate the possibility of M.C.I. (Mild Cognitive Impairment) in the elderly - Supervisor: Prof. Hadi(Manouchehr) Moradi",
+      projectDesc:
+        " Thesis Project: Design and implementation of a set of cognitive games to evaluate the possibility of M.C.I. (Mild Cognitive Impairment) in the elderly - Supervisor: Prof. Hadi(Manouchehr) Moradi",
       footerLink: [
         {
           name: "Check out",
@@ -163,9 +166,10 @@ const featuredProjects = {
       ]
     },
     {
-       image: require("./assets/images/GalaxyShooter.png"),
+      image: require("./assets/images/GalaxyShooter.png"),
       projectName: "2D Galaxy Shooter",
-      projectDesc: "A Unity game project I crafted, inspired by the course: Ultimate Guide to Game Development with Unity.",
+      projectDesc:
+        "A Unity game project I crafted, inspired by the course: Ultimate Guide to Game Development with Unity.",
       footerLink: [
         {
           name: "Check out",
@@ -174,7 +178,7 @@ const featuredProjects = {
       ]
     },
     {
-       image: require("./assets/images/MyPixelArts.png"),
+      image: require("./assets/images/MyPixelArts.png"),
       projectName: "My Pixel Arts",
       projectDesc: "As a hobby, I create pixel art from time to time.",
       footerLink: [
@@ -205,7 +209,7 @@ const achievementSection = {
       ]
     },
     {
-	  title: "Turn Based Puzzle Game in Unreal With Blueprints & C++",
+      title: "Turn Based Puzzle Game in Unreal With Blueprints & C++",
       image: require("./assets/images/cert3.png"),
       footerLink: [
         {
@@ -217,10 +221,13 @@ const achievementSection = {
 
     {
       title: "Unreal Engine 5 Action Adventure Game Development Course",
-//      subtitle: "Completed Certifcation from Udemy",
+      //      subtitle: "Completed Certifcation from Udemy",
       image: require("./assets/images/cert2.png"),
       footerLink: [
-        {name: "Certification", url: "/certificates/UC-0a0f62fc-5aa8-4296-b48d-8603e18e1162.jpg"}
+        {
+          name: "Certification",
+          url: "/certificates/UC-0a0f62fc-5aa8-4296-b48d-8603e18e1162.jpg"
+        }
       ]
     }
   ],
@@ -236,5 +243,5 @@ export {
   openSource,
   featuredProjects,
   achievementSection,
-  contactInfo,
+  contactInfo
 };
