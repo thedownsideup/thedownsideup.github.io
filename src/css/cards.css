@@ -33,15 +33,15 @@
 }
 
 .portfolio-card:hover {
-    border-color: var(--primary-color);
+    border-color: var(--portfolio-card-border);
     box-shadow:
-            0 0 0 1px var(--primary-color),
+            0 0 0 1px var(--portfolio-card-border),
             0 14px 35px rgba(0, 0, 0, 0.14);
 }
 
 [data-theme="dark"] .portfolio-card:hover {
     box-shadow:
-            0 0 0 1px var(--primary-color),
+            0 0 0 1px var(--portfolio-card-border),
             0 14px 35px rgba(0, 0, 0, 0.28);
 }
 
@@ -182,7 +182,7 @@
 }
 
 .skills-marquee:focus-visible {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--portfolio-card-border);
     outline-offset: -4px;
 }
 
@@ -278,9 +278,9 @@
     transform: translateY(-7px) scale(1.045);
     background: transparent;
     color: var(--portfolio-card-text);
-    border-color: var(--primary-color);
+    border-color: var(--portfolio-card-border);
     box-shadow:
-            0 0 0 1px var(--primary-color),
+            0 0 0 1px var(--portfolio-card-border),
             0 18px 38px rgba(0, 0, 0, 0.2);
 }
 
@@ -307,11 +307,11 @@
     transform: translateY(-7px) scale(1.045);
     background: transparent;
     color: var(--portfolio-card-text);
-    border-color: var(--primary-color);
-    outline: 2px solid var(--primary-color);
+    border-color: var(--portfolio-card-border);
+    outline: 2px solid var(--portfolio-card-border);
     outline-offset: 4px;
     box-shadow:
-            0 0 0 1px var(--primary-color),
+            0 0 0 1px var(--portfolio-card-border),
             0 18px 38px rgba(0, 0, 0, 0.2);
 }
 
