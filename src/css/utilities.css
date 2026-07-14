@@ -1,10 +1,3 @@
-/* ?This is where reusable styling of this template will be. 
-   !Will contain things like:
-   * Button styling
-   * Background color styling
-   * padding and margin
-*/
-
 .container {
   max-width: var(--width-medium);
   margin: 0 auto;
@@ -49,27 +42,44 @@ h2::selection {
 }
 
 .toggle-icons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  position: relative;
+  display: block;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
 }
 
 .toggle-icons > img {
-  transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 30px;
+  height: 30px;
+  transition:
+          opacity 0.3s ease,
+          transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.moon {
+/* Light mode */
+.toggle-icons .sun {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.toggle-icons .moon {
+  opacity: 0;
   transform: rotate(10deg);
 }
 
-#switch:checked + .toggle-icons .moon {
-  transform: rotate(250deg);
+/* Dark mode */
+#switch:checked + .toggle-icons .sun {
+  opacity: 0;
+  transform: rotate(100deg);
 }
 
-#switch:checked + .toggle-icons .sun {
-  transform: rotate(100deg);
+#switch:checked + .toggle-icons .moon {
+  opacity: 1;
+  transform: rotate(250deg);
 }
 
 /* Header Container */
