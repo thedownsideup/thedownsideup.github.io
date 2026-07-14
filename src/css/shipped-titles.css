@@ -6,7 +6,8 @@
 
 .shipped-titles-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, 280px);
+    justify-content: center;
     gap: 1.5rem;
 
     width: 100%;
@@ -18,6 +19,7 @@
 .shipped-title-card {
     position: relative;
 
+    width: 280px;
     aspect-ratio: 1 / 1;
     overflow: hidden;
 
@@ -28,7 +30,7 @@
     isolation: isolate;
 }
 
-/* App icon */
+/* App icon image */
 .shipped-title-image {
     position: absolute;
     inset: 0;
@@ -61,48 +63,108 @@
     transition: opacity 0.4s ease-in-out;
 }
 
-/*
- * This directly targets the project-info class
- * that already exists in your shipped-title HTML.
- */
+/* All content shown on hover */
 .shipped-title-card .project-info {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 3;
 
-    display: block;
+    display: block !important;
 
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
 
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
 
     transition:
             opacity 0.4s ease-in-out,
             visibility 0.4s ease-in-out;
 }
 
-/*
- * Same bottom-left placement and text sizes as Projects.
- * This overrides the original global top: 160px rule.
- */
-.shipped-title-card .project-bio {
+/* Store buttons centered in the card */
+.shipped-title-store-links {
     position: absolute;
-    top: auto;
-    right: auto;
-    bottom: 1rem;
-    left: 1rem;
+    top: 47%;
+    left: 50%;
+    z-index: 5;
 
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
 
+    width: max-content;
     margin: 0;
     padding: 0;
 
+    transform: translate(-50%, -50%);
+
+    pointer-events: auto;
+}
+
+/* Individual store link */
+.shipped-title-store-link {
+    position: relative;
+    z-index: 6;
+
+    display: block;
+    margin: 0;
+    padding: 0;
+
+    border-radius: 6px;
+    cursor: pointer;
+    pointer-events: auto;
+
+    transition:
+            transform 0.25s ease-in-out,
+            filter 0.25s ease-in-out;
+}
+
+.shipped-title-store-link img {
+    display: block;
+
+    width: 135px;
+    height: auto;
+    max-width: none;
+
+    pointer-events: none;
+}
+
+.shipped-title-store-link:hover {
+    transform: translateY(-2px) scale(1.03);
+    filter: brightness(1.08);
+}
+
+.shipped-title-store-link:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 4px;
+}
+
+/* Title and downloads directly below the buttons */
+.shipped-title-card .project-bio {
+    position: absolute !important;
+
+    top: calc(47% + 62px) !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    margin: 0;
+    padding: 0 1rem;
+
     color: #ffffff;
-    text-align: left;
+    text-align: center;
+    pointer-events: none;
 }
 
 .shipped-title-card .project-bio h3 {
@@ -122,55 +184,7 @@
     line-height: 1.5;
 }
 
-/* Store buttons centered and stacked vertically */
-.shipped-title-store-links {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.65rem;
-
-    width: max-content;
-
-    transform: translate(-50%, -50%);
-}
-
-.shipped-title-store-link {
-    display: block;
-
-    margin: 0;
-    padding: 0;
-
-    border-radius: 6px;
-
-    transition:
-            transform 0.25s ease-in-out,
-            filter 0.25s ease-in-out;
-}
-
-.shipped-title-store-link img {
-    display: block;
-
-    width: 135px;
-    height: auto;
-    max-width: none;
-}
-
-.shipped-title-store-link:hover {
-    transform: translateY(-2px) scale(1.03);
-    filter: brightness(1.08);
-}
-
-.shipped-title-store-link:focus-visible {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 4px;
-}
-
-/* Hover reveal */
+/* Reveal content on hover or keyboard focus */
 .shipped-title-card:hover::after,
 .shipped-title-card:focus-within::after {
     opacity: 1;
@@ -190,24 +204,27 @@
 /* Tablet */
 @media (max-width: 900px) {
     .shipped-titles-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, 280px);
     }
 }
 
 /* Mobile */
 @media (max-width: 600px) {
     .shipped-titles-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 250px;
     }
 
     .shipped-title-card {
-        width: 100%;
-        max-width: 420px;
+        width: 250px;
         margin: 0 auto;
     }
 
-    .shipped-title-store-link img {
-        width: 130px;
+    .shipped-title-store-links {
+        top: 46%;
+    }
+
+    .shipped-title-card .project-bio {
+        top: calc(46% + 62px) !important;
     }
 }
 
