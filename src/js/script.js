@@ -48,134 +48,77 @@ toggleSwitch?.addEventListener("change", switchTheme);
 const experienceData = [
   {
     dates: "Jan 2026 – Present",
-    duration: "Current",
     title: "Game Developer / Software Engineer",
-    company: "Swordmonkey Inc.",
+    company: "Swordmonkey Studios Inc.",
+    website: "https://www.swordmonkey.com/",
     logo: "assets/company/swordmonkey-logo.jpg",
-    logoAlt: "Swordmonkey Inc. logo",
+    logoAlt: "Swordmonkey Studios Inc. logo",
     initials: "SM",
-    links: [],
   },
   {
     dates: "Sept 2024 – Oct 2025",
-    duration: "1 yr 1 mo",
     title: "Game Developer / Software Engineer",
     company: "Muslim Kids TV",
+    website: "https://www.muslimkids.tv/",
     logo: "assets/company/mktv-logo.png",
     logoAlt: "Muslim Kids TV logo",
     initials: "MKTV",
-    links: [
-      {
-        label: "Muslim Kids TV",
-        platform: "Google Play",
-        url: "https://play.google.com/store/apps/details?id=com.mktv.steelkiwi.muslimkidstv",
-      },
-      {
-        label: "Muslim Kids TV",
-        platform: "App Store",
-        url: "https://apps.apple.com/ca/app/muslim-kids-tv/id1189900377",
-      },
-    ],
   },
   {
     dates: "May 2024 – Aug 2024",
-    duration: "4 mos",
     title: "Unreal Engine Programmer Intern",
     company: "Byzantian Interactive, Inc.",
+    website: "https://www.byzantian.net/",
     logo: "assets/company/byzantian-interactive-logo.jpg",
     logoAlt: "Byzantian Interactive logo",
     initials: "BI",
-    links: [
-      {
-        label: "Game Programming Team",
-        platform: "",
-        url: "",
-      },
-    ],
   },
   {
     dates: "June 2021 – Aug 2023",
-    duration: "2 yrs 3 mos",
     title: "Senior Software Engineer",
     company: "Medrick Game Studio",
+    website: "https://medrickfze.com/",
     logo: "assets/company/medrick-logo.png",
     logoAlt: "Medrick Game Studio logo",
     initials: "MG",
-    links: [
-      {
-        label: "Golmorad",
-        platform: "Google Play",
-        url: "",
-      },
-      {
-        label: "Dream Home",
-        platform: "Google Play",
-        url: "",
-      },
-    ],
   },
   {
     dates: "Aug 2020 – June 2021",
-    duration: "11 mos",
     title: "Software Engineer",
     company: "Medrick Game Studio",
+    website: "https://medrickfze.com/",
     logo: "assets/company/medrick-logo.png",
     logoAlt: "Medrick Game Studio logo",
     initials: "MG",
-    links: [
-      {
-        label: "Golmorad",
-        platform: "Google Play",
-        url: "",
-      },
-      {
-        label: "Dream Home",
-        platform: "Google Play",
-        url: "",
-      },
-    ],
   },
 ];
 
-function createExperienceLink(link) {
-  const platform = link.platform
-      ? `<span class="experience-link-platform">${link.platform}</span>`
-      : "";
-
-  const contents = `
-    <span class="experience-link-label">${link.label}</span>
-    ${platform}
-  `;
-
-  if (!link.url) {
+function createCompanyName(experience) {
+  if (!experience.website) {
     return `
-      <span class="experience-link experience-link-static">
-        ${contents}
-      </span>
+      <p class="experience-company">
+        ${experience.company}
+      </p>
     `;
   }
 
   return `
-    <a
-      class="experience-link"
-      href="${link.url}"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      ${contents}
-    </a>
+    <p class="experience-company">
+      <a
+        class="experience-company-link"
+        href="${experience.website}"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Visit ${experience.company} website"
+      >
+        ${experience.company}
+        <span aria-hidden="true">↗</span>
+      </a>
+    </p>
   `;
 }
 
 function createExperienceCard(experience) {
-  const dateText = experience.duration
-      ? `${experience.dates} · ${experience.duration}`
-      : experience.dates;
-
-  const links = experience.links
-      .map((link) => createExperienceLink(link))
-      .join("");
-
   return `
     <article class="experience-card">
       <div class="experience-logo">
@@ -189,15 +132,11 @@ function createExperienceCard(experience) {
         </span>
       </div>
 
-      <p class="experience-date">${dateText}</p>
+      <p class="experience-date">${experience.dates}</p>
 
       <h3>${experience.title}</h3>
 
-      <p class="experience-company">${experience.company}</p>
-
-      <div class="experience-links">
-        ${links}
-      </div>
+      ${createCompanyName(experience)}
     </article>
   `;
 }

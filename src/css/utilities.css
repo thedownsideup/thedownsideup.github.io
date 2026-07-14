@@ -339,3 +339,70 @@ a.experience-link:hover {
     max-height: 65px;
   }
 }
+
+.experience-company-link {
+  color: var(--text-color);
+  font-weight: var(--weight-semibold);
+  border-bottom: 1px solid transparent;
+  transition:
+          color 0.2s ease,
+          border-color 0.2s ease;
+}
+
+.experience-company-link:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.experience-company-link span {
+  margin-left: 0.2rem;
+  font-size: 0.8rem;
+}
+
+/* Work experience card theme override */
+
+/* Light mode: near-black cards with lime text */
+:root {
+  --experience-card-background: #EBF5C2;
+  --experience-card-text: #263216;
+  --experience-card-muted: #263216;
+  --experience-card-hover: #ffffff;
+}
+
+/* Dark mode: green cards with near-black text */
+[data-theme="dark"] {
+  --experience-card-background: #EBF5C2;
+  --experience-card-text: #263216;
+  --experience-card-muted: #263216;
+  --experience-card-hover: #263216;
+}
+
+.experience-card {
+  background: var(--experience-card-background);
+  color: var(--experience-card-text);
+}
+
+.experience-card h3 {
+  color: var(--experience-card-text);
+}
+
+.experience-date {
+  color: var(--experience-card-muted);
+}
+
+.experience-company {
+  color: var(--experience-card-text);
+}
+
+.experience-company-link {
+  color: var(--experience-card-text);
+}
+
+.experience-company-link:hover {
+  color: var(--experience-card-hover);
+  border-color: var(--experience-card-hover);
+}
+
+.experience-logo-fallback {
+  color: var(--experience-card-text);
+}
