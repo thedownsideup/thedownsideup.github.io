@@ -1,0 +1,85 @@
+/* Responsive layout */
+
+/* Tablet */
+@media (max-width: 768px) {
+    .header-container {
+        margin-top: 7rem;
+        text-align: center;
+    }
+
+    .content-text h2 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .experience-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .experience-card {
+        min-height: 270px;
+        padding: 1.6rem;
+    }
+
+    .experience-logo img {
+        max-width: 130px;
+        max-height: 65px;
+    }
+
+    .skills-marquee {
+        mask-image: linear-gradient(
+                to right,
+                transparent,
+                black 3%,
+                black 97%,
+                transparent
+        );
+
+        -webkit-mask-image: linear-gradient(
+                to right,
+                transparent,
+                black 3%,
+                black 97%,
+                transparent
+        );
+    }
+
+    .skills-track {
+        --skills-speed: 42s;
+    }
+
+    .skill-card {
+        width: 205px;
+        min-height: 102px;
+        padding: 1rem;
+    }
+
+    .skill-card-abbreviation {
+        width: 43px;
+        height: 43px;
+    }
+}
+
+/* Reduced-motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .skills-marquee {
+        overflow-x: auto;
+        mask-image: none;
+        -webkit-mask-image: none;
+    }
+
+    .skills-track {
+        animation: none;
+    }
+
+    .skills-group[aria-hidden="true"] {
+        display: none;
+    }
+
+    .portfolio-card,
+    .skill-card-abbreviation {
+        transition: none;
+    }
+}

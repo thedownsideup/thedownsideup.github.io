@@ -1,0 +1,59 @@
+/* Project section cards */
+
+.card {
+    padding: 1rem;
+    background: var(--card-background);
+    color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.4s ease-in-out;
+}
+
+.card a {
+    margin-right: 0.3rem;
+    color: #ffffff;
+    font-size: 1.1rem;
+    transition: 0.25s ease-in-out;
+}
+
+.card a:hover {
+    color: var(--primary-color);
+}
+
+.card:hover {
+    box-shadow: inset 0 100px 1000px 10px rgba(0, 0, 0, 0.8);
+}
+
+.card:hover .project-info {
+    opacity: 1;
+}
+
+/* Project 1 */
+.card:nth-child(1) {
+    background: url("../assets/project/project-one.png") center center / cover;
+}
+
+/* Project 2 */
+.card:nth-child(2) {
+    background: url("../assets/project/project-two.png") center center / cover;
+}
+
+/* Project 3 */
+.card:nth-child(3) {
+    background: url("../assets/project/project-three.png") center center / cover;
+}
+
+/* Project 4 */
+.card:nth-child(4) {
+    background: url("../assets/project/project-four.png") center center / cover;
+}
+
+/* Project 5 */
+.card:nth-child(5) {
+    background: url("../assets/project/project-five.png") center center / cover;
+}
+
+/* Project 6 */
+.card:nth-child(6) {
+    background: url("../assets/project/project-six.png") center center / cover;
+}
