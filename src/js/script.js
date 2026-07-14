@@ -11,11 +11,18 @@ const toggleSwitch = document.querySelector(
 
 const dateElement = document.querySelector("#datee");
 const experienceGrid = document.querySelector("#experience-grid");
+const experienceList = document.querySelector("#experience-list");
 const skillsTrack = document.querySelector("#skills-track");
 
 /* Portfolio data */
-const experienceData = window.portfolioData?.experience ?? [];
-const skillsData = window.portfolioData?.skills ?? [];
+if (!window.portfolioData) {
+  throw new Error(
+      "portfolio-data.js did not load. Make sure it loads before script.js."
+  );
+}
+
+const experienceData = window.portfolioData.experience || [];
+const skillsData = window.portfolioData.skills || [];
 
 /* Mobile navigation */
 function toggleMobileMenu() {
@@ -60,7 +67,23 @@ if (savedTheme === "dark" || savedTheme === "light") {
 
 toggleSwitch?.addEventListener("change", switchTheme);
 
-/* Work experience */
+/* Shared experience markup */
+function createLogoMarkup(experience, containerClass) {
+  return `
+    <div class="${containerClass}">
+      <img
+        data-company-logo
+        src="${experience.logo}"
+        alt="${experience.logoAlt}"
+      />
+
+      <span class="experience-logo-fallback" hidden>
+        ${experience.initials}
+      </span>
+    </div>
+  `;
+}
+
 function createCompanyName(experience) {
   if (!experience.website) {
     return `
@@ -86,19 +109,16 @@ function createCompanyName(experience) {
   `;
 }
 
+/*
+ * Vertical experience cards
+ *
+ * These functions are intentionally kept for possible future use.
+ * The current page uses the horizontal portfolio list instead.
+ */
 function createExperienceCard(experience) {
   return `
     <article class="portfolio-card experience-card">
-      <div class="experience-logo">
-        <img
-          src="${experience.logo}"
-          alt="${experience.logoAlt}"
-        />
-
-        <span class="experience-logo-fallback" hidden>
-          ${experience.initials}
-        </span>
-      </div>
+      ${createLogoMarkup(experience, "experience-logo")}
 
       <p class="experience-date">
         ${experience.dates}
@@ -113,14 +133,88 @@ function createExperienceCard(experience) {
   `;
 }
 
-function addLogoFallbacks() {
+function renderExperienceCards() {
   if (!experienceGrid) {
     return;
   }
 
-  const companyLogos = experienceGrid.querySelectorAll(
-      ".experience-logo img"
-  );
+  experienceGrid.innerHTML = experienceData
+      .map((experience) => createExperienceCard(experience))
+      .join("");
+
+  addLogoFallbacks(experienceGrid);
+}
+
+/* Horizontal experience list */
+function createExperienceListContent(experience) {
+  return `
+    ${createLogoMarkup(experience, "portfolio-list-logo")}
+
+    <div class="portfolio-list-copy">
+      <p class="portfolio-list-date">
+        ${experience.dates}
+      </p>
+
+      <h3>
+        ${experience.title}
+      </h3>
+
+      <p class="portfolio-list-company">
+        ${experience.company}
+      </p>
+    </div>
+
+    ${
+      experience.website
+          ? `
+          <span class="portfolio-list-arrow" aria-hidden="true">
+            ↗
+          </span>
+        `
+          : ""
+  }
+  `;
+}
+
+function createExperienceListItem(experience) {
+  const content = createExperienceListContent(experience);
+
+  if (!experience.website) {
+    return `
+      <article class="portfolio-card portfolio-list-item">
+        ${content}
+      </article>
+    `;
+  }
+
+  return `
+    <a
+      class="portfolio-card portfolio-list-item"
+      href="${experience.website}"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Visit the ${experience.company} website"
+    >
+      ${content}
+    </a>
+  `;
+}
+
+function renderExperienceList() {
+  if (!experienceList) {
+    return;
+  }
+
+  experienceList.innerHTML = experienceData
+      .map((experience) => createExperienceListItem(experience))
+      .join("");
+
+  addLogoFallbacks(experienceList);
+}
+
+/* Company logo fallback */
+function addLogoFallbacks(container) {
+  const companyLogos = container.querySelectorAll("[data-company-logo]");
 
   companyLogos.forEach((logo) => {
     logo.addEventListener("error", () => {
@@ -133,18 +227,6 @@ function addLogoFallbacks() {
       }
     });
   });
-}
-
-function renderExperienceCards() {
-  if (!experienceGrid || experienceData.length === 0) {
-    return;
-  }
-
-  experienceGrid.innerHTML = experienceData
-      .map((experience) => createExperienceCard(experience))
-      .join("");
-
-  addLogoFallbacks();
 }
 
 /* Skills marquee */
@@ -184,14 +266,10 @@ function createSkillsGroup(isDuplicate = false) {
 }
 
 function renderSkills() {
-  if (!skillsTrack || skillsData.length === 0) {
+  if (!skillsTrack) {
     return;
   }
 
-  /*
-   * The second group is an identical visual copy.
-   * This allows the animation to loop without a visible jump.
-   */
   skillsTrack.innerHTML = `
     ${createSkillsGroup(false)}
     ${createSkillsGroup(true)}
@@ -200,14 +278,12 @@ function renderSkills() {
 
 /* Footer year */
 function renderCurrentYear() {
-  if (!dateElement) {
-    return;
+  if (dateElement) {
+    dateElement.textContent = new Date().getFullYear();
   }
-
-  dateElement.textContent = new Date().getFullYear();
 }
 
 /* Initial rendering */
-renderExperienceCards();
+renderExperienceList();
 renderSkills();
 renderCurrentYear();

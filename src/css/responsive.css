@@ -10,6 +10,22 @@
     .content-text h2 {
         font-size: 2.5rem;
     }
+
+    .portfolio-list-item {
+        grid-template-columns: 85px minmax(0, 1fr) auto;
+        gap: 1rem;
+        padding: 1rem 1.1rem;
+    }
+
+    .portfolio-list-logo {
+        width: 85px;
+        height: 65px;
+    }
+
+    .portfolio-list-logo img {
+        max-width: 80px;
+        max-height: 58px;
+    }
 }
 
 /* Mobile */
@@ -26,6 +42,33 @@
     .experience-logo img {
         max-width: 130px;
         max-height: 65px;
+    }
+
+    .portfolio-list-item {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 0.8rem;
+        padding: 1.4rem;
+        text-align: center;
+    }
+
+    .portfolio-list-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .portfolio-list-logo {
+        width: 100%;
+        height: 65px;
+    }
+
+    .portfolio-list-copy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .portfolio-list-arrow {
+        display: none;
     }
 
     .skills-marquee {
@@ -79,7 +122,8 @@
     }
 
     .portfolio-card,
-    .skill-card-abbreviation {
+    .skill-card-abbreviation,
+    .portfolio-list-arrow {
         transition: none;
     }
 }

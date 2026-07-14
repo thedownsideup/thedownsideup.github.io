@@ -1,0 +1,234 @@
+/* Shipped Titles section */
+
+.shipped-titles {
+    margin: 2rem auto 5rem;
+}
+
+.shipped-titles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Rounded app-icon card */
+.shipped-title-card {
+    position: relative;
+
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+
+    background: #000000;
+    border-radius: 22%;
+
+    color: #ffffff;
+    isolation: isolate;
+}
+
+/* App icon */
+.shipped-title-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    border-radius: inherit;
+
+    transition: transform 0.4s ease-in-out;
+}
+
+/* Dark hover overlay */
+.shipped-title-card::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    background: rgba(0, 0, 0, 0.78);
+    border-radius: inherit;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.4s ease-in-out;
+}
+
+/*
+ * This directly targets the project-info class
+ * that already exists in your shipped-title HTML.
+ */
+.shipped-title-card .project-info {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+            opacity 0.4s ease-in-out,
+            visibility 0.4s ease-in-out;
+}
+
+/*
+ * Same bottom-left placement and text sizes as Projects.
+ * This overrides the original global top: 160px rule.
+ */
+.shipped-title-card .project-bio {
+    position: absolute;
+    top: auto;
+    right: auto;
+    bottom: 1rem;
+    left: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    margin: 0;
+    padding: 0;
+
+    color: #ffffff;
+    text-align: left;
+}
+
+.shipped-title-card .project-bio h3 {
+    margin: 0;
+
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: var(--weight-bold);
+    line-height: 1.5;
+}
+
+.shipped-title-card .project-bio p {
+    margin: 0;
+
+    color: #ffffff;
+    font-size: 0.83rem;
+    line-height: 1.5;
+}
+
+/* Store buttons centered and stacked vertically */
+.shipped-title-store-links {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+
+    width: max-content;
+
+    transform: translate(-50%, -50%);
+}
+
+.shipped-title-store-link {
+    display: block;
+
+    margin: 0;
+    padding: 0;
+
+    border-radius: 6px;
+
+    transition:
+            transform 0.25s ease-in-out,
+            filter 0.25s ease-in-out;
+}
+
+.shipped-title-store-link img {
+    display: block;
+
+    width: 135px;
+    height: auto;
+    max-width: none;
+}
+
+.shipped-title-store-link:hover {
+    transform: translateY(-2px) scale(1.03);
+    filter: brightness(1.08);
+}
+
+.shipped-title-store-link:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 4px;
+}
+
+/* Hover reveal */
+.shipped-title-card:hover::after,
+.shipped-title-card:focus-within::after {
+    opacity: 1;
+}
+
+.shipped-title-card:hover .shipped-title-image,
+.shipped-title-card:focus-within .shipped-title-image {
+    transform: scale(1.05);
+}
+
+.shipped-title-card:hover .project-info,
+.shipped-title-card:focus-within .project-info {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+    .shipped-titles-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .shipped-titles-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .shipped-title-card {
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto;
+    }
+
+    .shipped-title-store-link img {
+        width: 130px;
+    }
+}
+
+/* Touch devices do not have reliable hover */
+@media (hover: none) {
+    .shipped-title-card::after {
+        opacity: 1;
+    }
+
+    .shipped-title-card .project-info {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+/* Reduced-motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .shipped-title-image,
+    .shipped-title-card::after,
+    .shipped-title-card .project-info,
+    .shipped-title-store-link {
+        transition: none;
+    }
+}
