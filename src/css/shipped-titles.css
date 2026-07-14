@@ -43,6 +43,8 @@
     object-fit: cover;
     border-radius: inherit;
 
+    transform: scale(1.02);
+    
     transition: transform 0.4s ease-in-out;
 }
 
@@ -192,7 +194,7 @@
 
 .shipped-title-card:hover .shipped-title-image,
 .shipped-title-card:focus-within .shipped-title-image {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .shipped-title-card:hover .project-info,
