@@ -30,30 +30,48 @@
 
 /* Project 1 */
 .card:nth-child(1) {
-    background: url("../assets/project/project-one.png") center center / cover;
+    background:
+            url("../assets/project/project-one.gif")
+            center center / cover
+            no-repeat;
 }
 
 /* Project 2 */
 .card:nth-child(2) {
-    background: url("../assets/project/project-two.png") center center / cover;
+    background:
+            url("../assets/project/project-two.gif")
+            center center / cover
+            no-repeat;
 }
 
 /* Project 3 */
 .card:nth-child(3) {
-    background: url("../assets/project/project-three.png") center center / cover;
+    background:
+            url("../assets/project/project-three.gif")
+            center center / cover
+            no-repeat;
 }
 
 /* Project 4 */
 .card:nth-child(4) {
-    background: url("../assets/project/project-four.png") center center / cover;
+    background:
+            url("../assets/project/project-four.gif")
+            center center / cover
+            no-repeat;
 }
 
 /* Project 5 */
 .card:nth-child(5) {
-    background: url("../assets/project/project-five.png") center center / cover;
+    background:
+            url("../assets/project/project-five.gif")
+            center center / cover
+            no-repeat;
 }
 
 /* Project 6 */
 .card:nth-child(6) {
-    background: url("../assets/project/project-six.png") center center / cover;
+    background:
+            url("../assets/project/project-six.gif")
+            center center / cover
+            no-repeat;
 }

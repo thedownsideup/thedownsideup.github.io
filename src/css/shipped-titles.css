@@ -251,3 +251,22 @@
         transition: none;
     }
 }
+
+/* Hide store buttons until hover */
+.shipped-title-store-links {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+            opacity 0.35s ease,
+            visibility 0.35s ease;
+}
+
+/* Reveal store buttons on hover or keyboard focus */
+.shipped-title-card:hover .shipped-title-store-links,
+.shipped-title-card:focus-within .shipped-title-store-links {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
