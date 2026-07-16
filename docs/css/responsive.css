@@ -1,49 +1,32 @@
 /* Responsive layout */
 
 /*
- * Mobile and tablet project cards
+ * Tablet and mobile project links
  *
- * At 1024px and below, the invisible YouTube link
- * covers the entire project card.
+ * These rules are deliberately scoped to project-card.
+ * They do not affect experience or shipped-title cards.
  */
 @media (max-width: 1024px) {
-    .project-card[data-has-youtube="true"] {
+    .project-card[data-youtube-url] {
         cursor: pointer;
         touch-action: manipulation;
     }
 
-    .project-card-mobile-link {
-        position: absolute;
-        inset: 0;
-        z-index: 20;
-
-        display: block;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-
-        border-radius: inherit;
-    }
-
-    .project-card-mobile-link:hover {
-        transform: none;
-    }
-
-    .project-card-mobile-link:focus-visible {
-        outline: 3px solid var(--primary-color);
-        outline-offset: -4px;
+    .project-card[data-youtube-url]:active {
+        transform: scale(0.985);
     }
 
     /*
-     * The whole card is already the YouTube link,
-     * so the small link icon is unnecessary.
+     * The full card opens YouTube on smaller screens,
+     * so the small YouTube icon is not needed.
      */
-    .project-card .project-link {
+    .project-card[data-youtube-url] .project-link {
         display: none;
     }
 
-    .project-card:active {
-        transform: scale(0.985);
+    .project-card[data-youtube-url]:focus-visible {
+        outline: 3px solid var(--primary-color);
+        outline-offset: 4px;
     }
 }
 

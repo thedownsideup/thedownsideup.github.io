@@ -47,28 +47,13 @@ navLinks.forEach((navLink) => {
     navLink.addEventListener("click", closeMobileMenu);
 });
 
-/* Theme */
+/* Theme switching */
 function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
 
     if (toggleSwitch) {
         toggleSwitch.checked = theme === "dark";
     }
-}
-
-function getSavedTheme() {
-    return localStorage.getItem("theme");
-}
-
-function initializeTheme() {
-    const savedTheme = getSavedTheme();
-
-    if (savedTheme === "dark" || savedTheme === "light") {
-        applyTheme(savedTheme);
-        return;
-    }
-
-    applyTheme("light");
 }
 
 function switchTheme(event) {
@@ -80,102 +65,86 @@ function switchTheme(event) {
     localStorage.setItem("theme", selectedTheme);
 }
 
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme === "dark" || savedTheme === "light") {
+    applyTheme(savedTheme);
+} else {
+    applyTheme("light");
+}
+
 toggleSwitch?.addEventListener("change", switchTheme);
 
-initializeTheme();
-
-/* Experience logo */
-function createExperienceLogo(experience, containerClass) {
-    const logo = experience.logo || "";
-    const logoAlt =
-        experience.logoAlt ||
-        `${experience.company} logo`;
-
-    const initials = experience.initials || "";
-
+/* Shared experience markup */
+function createLogoMarkup(experience, containerClass) {
     return `
         <div class="${containerClass}">
             <img
-                src="${logo}"
-                alt="${logoAlt}"
-                loading="lazy"
-                data-experience-logo
+                data-company-logo
+                src="${experience.logo}"
+                alt="${experience.logoAlt}"
             />
 
-            <span
-                class="experience-logo-fallback"
-                aria-hidden="true"
-            >
-                ${initials}
+            <span class="experience-logo-fallback" hidden>
+                ${experience.initials}
             </span>
         </div>
     `;
 }
 
-function initializeExperienceLogoFallbacks() {
-    const logos = document.querySelectorAll(
-        "[data-experience-logo]"
-    );
-
-    logos.forEach((logo) => {
-        const fallback =
-            logo.parentElement?.querySelector(
-                ".experience-logo-fallback"
-            );
-
-        if (!logo.getAttribute("src")) {
-            logo.style.display = "none";
-
-            if (fallback) {
-                fallback.style.display = "flex";
-            }
-
-            return;
-        }
-
-        logo.addEventListener(
-            "error",
-            () => {
-                logo.style.display = "none";
-
-                if (fallback) {
-                    fallback.style.display = "flex";
-                }
-            },
-            {
-                once: true,
-            }
-        );
-    });
-}
-
-/* Vertical experience cards */
-/* These functions remain available, but the current page uses the list. */
-function createExperienceCard(experience) {
-    const website = experience.website || "#";
+function createCompanyName(experience) {
+    if (!experience.website) {
+        return `
+            <p class="experience-company">
+                ${experience.company}
+            </p>
+        `;
+    }
 
     return `
-        <article class="experience-card portfolio-card">
-            ${createExperienceLogo(
+        <p class="experience-company">
+            <a
+                class="experience-company-link"
+                href="${experience.website}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit the ${experience.company} website"
+            >
+                ${experience.company}
+                <span
+                    class="external-link-icon"
+                    aria-hidden="true"
+                >
+                    ↗
+                </span>
+            </a>
+        </p>
+    `;
+}
+
+/*
+ * Vertical experience cards
+ *
+ * These are kept in the codebase for possible future use.
+ * The current page uses the horizontal experience list.
+ */
+function createExperienceCard(experience) {
+    return `
+        <article class="portfolio-card experience-card">
+            ${createLogoMarkup(
         experience,
         "experience-logo"
     )}
 
-            <div class="experience-card-copy">
-                <p class="experience-card-dates">
-                    ${experience.dates}
-                </p>
+            <p class="experience-date">
+                ${experience.dates}
+            </p>
 
-                <h3>${experience.title}</h3>
+            <h3>
+                ${experience.title}
+            </h3>
 
-                <a
-                    href="${website}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    ${experience.company}
-                </a>
-            </div>
+            ${createCompanyName(experience)}
         </article>
     `;
 }
@@ -185,49 +154,75 @@ function renderExperienceCards() {
         return;
     }
 
-    experienceGrid.innerHTML =
-        experienceData
-            .map(createExperienceCard)
-            .join("");
+    experienceGrid.innerHTML = experienceData
+        .map((experience) =>
+            createExperienceCard(experience)
+        )
+        .join("");
 
-    initializeExperienceLogoFallbacks();
+    addLogoFallbacks(experienceGrid);
 }
 
 /* Horizontal experience list */
-function createExperienceListItem(experience) {
-    const website = experience.website || "#";
-
-    return `
-        <a
-            class="portfolio-list-item"
-            href="${website}"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visit ${experience.company}"
-        >
-            ${createExperienceLogo(
-        experience,
-        "portfolio-list-logo"
-    )}
-
-            <div class="portfolio-list-copy">
-                <p class="portfolio-list-dates">
-                    ${experience.dates}
-                </p>
-
-                <h3>${experience.title}</h3>
-
-                <p class="portfolio-list-company">
-                    ${experience.company}
-                </p>
-            </div>
-
+function createExperienceListContent(experience) {
+    const arrowMarkup = experience.website
+        ? `
             <span
                 class="portfolio-list-arrow"
                 aria-hidden="true"
             >
-                <i class="fas fa-arrow-right"></i>
+                ↗
             </span>
+        `
+        : "";
+
+    return `
+        ${createLogoMarkup(
+        experience,
+        "portfolio-list-logo"
+    )}
+
+        <div class="portfolio-list-copy">
+            <p class="portfolio-list-date">
+                ${experience.dates}
+            </p>
+
+            <h3>
+                ${experience.title}
+            </h3>
+
+            <p class="portfolio-list-company">
+                ${experience.company}
+            </p>
+        </div>
+
+        ${arrowMarkup}
+    `;
+}
+
+function createExperienceListItem(experience) {
+    const content =
+        createExperienceListContent(experience);
+
+    if (!experience.website) {
+        return `
+            <article
+                class="portfolio-card portfolio-list-item"
+            >
+                ${content}
+            </article>
+        `;
+    }
+
+    return `
+        <a
+            class="portfolio-card portfolio-list-item"
+            href="${experience.website}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit the ${experience.company} website"
+        >
+            ${content}
         </a>
     `;
 }
@@ -237,26 +232,65 @@ function renderExperienceList() {
         return;
     }
 
-    experienceList.innerHTML =
-        experienceData
-            .map(createExperienceListItem)
-            .join("");
+    experienceList.innerHTML = experienceData
+        .map((experience) =>
+            createExperienceListItem(experience)
+        )
+        .join("");
 
-    initializeExperienceLogoFallbacks();
+    addLogoFallbacks(experienceList);
 }
 
-/* Skills */
-function createSkillCard(skill) {
+/* Company logo fallback */
+function showLogoFallback(logo) {
+    logo.hidden = true;
+
+    const fallback = logo.nextElementSibling;
+
+    if (fallback) {
+        fallback.hidden = false;
+    }
+}
+
+function addLogoFallbacks(container) {
+    const companyLogos = container.querySelectorAll(
+        "[data-company-logo]"
+    );
+
+    companyLogos.forEach((logo) => {
+        logo.addEventListener("error", () => {
+            showLogoFallback(logo);
+        });
+
+        if (
+            logo.complete &&
+            logo.naturalWidth === 0
+        ) {
+            showLogoFallback(logo);
+        }
+    });
+}
+
+/* Skills marquee */
+function createSkillCard(skill, isDuplicate) {
+    const tabIndex = isDuplicate
+        ? "-1"
+        : "0";
+
     return `
-        <article class="skill-card">
-            <div
+        <article
+            class="portfolio-card skill-card"
+            tabindex="${tabIndex}"
+            aria-label="${skill.name}, ${skill.category}"
+        >
+            <span
                 class="skill-card-abbreviation"
                 aria-hidden="true"
             >
                 ${skill.abbreviation}
-            </div>
+            </span>
 
-            <div class="skill-card-copy">
+            <div class="skill-card-content">
                 <h3>${skill.name}</h3>
                 <p>${skill.category}</p>
             </div>
@@ -264,33 +298,44 @@ function createSkillCard(skill) {
     `;
 }
 
-function createSkillsGroup(skills, isDuplicate = false) {
-    const hiddenAttribute = isDuplicate
+function createSkillsGroup(isDuplicate = false) {
+    const attributes = isDuplicate
         ? 'aria-hidden="true"'
-        : "";
+        : 'aria-label="Skills list"';
 
     return `
         <div
             class="skills-group"
-            ${hiddenAttribute}
+            ${attributes}
         >
-            ${skills.map(createSkillCard).join("")}
+            ${skillsData
+        .map((skill) =>
+            createSkillCard(
+                skill,
+                isDuplicate
+            )
+        )
+        .join("")}
         </div>
     `;
 }
 
 function renderSkills() {
-    if (!skillsTrack || skillsData.length === 0) {
+    if (!skillsTrack) {
         return;
     }
 
     skillsTrack.innerHTML = `
-        ${createSkillsGroup(skillsData)}
-        ${createSkillsGroup(skillsData, true)}
+        ${createSkillsGroup(false)}
+        ${createSkillsGroup(true)}
     `;
 }
 
-/* Projects */
+/*
+ * Project link
+ *
+ * Empty URLs render nothing.
+ */
 function createProjectLink(
     url,
     iconClass,
@@ -315,27 +360,7 @@ function createProjectLink(
     `;
 }
 
-function createMobileProjectLink(project) {
-    const youtubeUrl =
-        typeof project.youtubeUrl === "string"
-            ? project.youtubeUrl.trim()
-            : "";
-
-    if (!youtubeUrl) {
-        return "";
-    }
-
-    return `
-        <a
-            class="project-card-mobile-link"
-            href="${youtubeUrl}"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Watch ${project.title} on YouTube"
-        ></a>
-    `;
-}
-
+/* Projects */
 function createProjectCard(project) {
     const githubLink = createProjectLink(
         project.githubUrl,
@@ -349,15 +374,13 @@ function createProjectCard(project) {
         `Watch ${project.title} on YouTube`
     );
 
-    const mobileProjectLink =
-        createMobileProjectLink(project);
+    const youtubeUrl =
+        typeof project.youtubeUrl === "string"
+            ? project.youtubeUrl.trim()
+            : "";
 
-    const hasYoutubeLink =
-        typeof project.youtubeUrl === "string" &&
-        project.youtubeUrl.trim();
-
-    const youtubeAttribute = hasYoutubeLink
-        ? 'data-has-youtube="true"'
+    const youtubeDataAttribute = youtubeUrl
+        ? `data-youtube-url="${youtubeUrl}"`
         : "";
 
     return `
@@ -365,10 +388,8 @@ function createProjectCard(project) {
             class="card project-card"
             style="background-image: url('${project.image}');"
             aria-label="${project.title} project"
-            ${youtubeAttribute}
+            ${youtubeDataAttribute}
         >
-            ${mobileProjectLink}
-
             <div class="project-info">
                 <div class="project-bio">
                     <h3>${project.title}</h3>
@@ -392,10 +413,11 @@ function renderProjects() {
         return;
     }
 
-    projectsGrid.innerHTML =
-        projectsData
-            .map(createProjectCard)
-            .join("");
+    projectsGrid.innerHTML = projectsData
+        .map((project) =>
+            createProjectCard(project)
+        )
+        .join("");
 
     const projectsMoreUrl =
         window.portfolioData.projectsMoreUrl;
@@ -410,18 +432,161 @@ function renderProjects() {
     }
 }
 
-/* Footer year */
-function renderCurrentYear() {
-    if (!dateElement) {
+/*
+ * On tablet and mobile, the entire project card opens
+ * its YouTube link.
+ *
+ * This only targets .project-card and does not affect
+ * experience cards or shipped-title cards.
+ */
+const projectCardMediaQuery =
+    window.matchMedia("(max-width: 1024px)");
+
+function openProjectVideo(projectCard) {
+    const youtubeUrl =
+        projectCard.dataset.youtubeUrl;
+
+    if (!youtubeUrl) {
         return;
     }
 
-    dateElement.textContent =
-        new Date().getFullYear();
+    window.open(
+        youtubeUrl,
+        "_blank",
+        "noopener,noreferrer"
+    );
 }
 
-/* Initial render */
+function updateProjectCardAccessibility() {
+    const projectCards =
+        document.querySelectorAll(
+            ".project-card[data-youtube-url]"
+        );
+
+    projectCards.forEach((projectCard) => {
+        if (projectCardMediaQuery.matches) {
+            projectCard.setAttribute(
+                "role",
+                "link"
+            );
+
+            projectCard.setAttribute(
+                "tabindex",
+                "0"
+            );
+
+            projectCard.setAttribute(
+                "aria-label",
+                `${projectCard.getAttribute("aria-label")}. Open video on YouTube`
+            );
+        } else {
+            projectCard.removeAttribute("role");
+            projectCard.removeAttribute("tabindex");
+
+            const ariaLabel =
+                projectCard.getAttribute(
+                    "aria-label"
+                );
+
+            if (ariaLabel) {
+                projectCard.setAttribute(
+                    "aria-label",
+                    ariaLabel.replace(
+                        ". Open video on YouTube",
+                        ""
+                    )
+                );
+            }
+        }
+    });
+}
+
+function setupProjectCardLinks() {
+    if (!projectsGrid) {
+        return;
+    }
+
+    projectsGrid.addEventListener(
+        "click",
+        (event) => {
+            if (!projectCardMediaQuery.matches) {
+                return;
+            }
+
+            const projectCard =
+                event.target.closest(
+                    ".project-card[data-youtube-url]"
+                );
+
+            if (
+                !projectCard ||
+                !projectsGrid.contains(projectCard)
+            ) {
+                return;
+            }
+
+            /*
+             * Preserve normal behavior for links inside
+             * the project card.
+             */
+            if (event.target.closest("a")) {
+                return;
+            }
+
+            openProjectVideo(projectCard);
+        }
+    );
+
+    projectsGrid.addEventListener(
+        "keydown",
+        (event) => {
+            if (!projectCardMediaQuery.matches) {
+                return;
+            }
+
+            if (
+                event.key !== "Enter" &&
+                event.key !== " "
+            ) {
+                return;
+            }
+
+            const projectCard =
+                event.target.closest(
+                    ".project-card[data-youtube-url]"
+                );
+
+            if (
+                !projectCard ||
+                !projectsGrid.contains(projectCard)
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+            openProjectVideo(projectCard);
+        }
+    );
+
+    projectCardMediaQuery.addEventListener(
+        "change",
+        updateProjectCardAccessibility
+    );
+
+    updateProjectCardAccessibility();
+}
+
+/* Footer year */
+function renderCurrentYear() {
+    if (dateElement) {
+        dateElement.textContent =
+            new Date().getFullYear();
+    }
+}
+
+/* Initial rendering */
 renderExperienceList();
 renderSkills();
 renderProjects();
+setupProjectCardLinks();
 renderCurrentYear();
