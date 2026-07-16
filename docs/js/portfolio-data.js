@@ -22,7 +22,7 @@ window.portfolioData = {
         },
         {
             dates: "May 2024 – Aug 2024",
-            title: "Unreal Engine Programmer Intern",
+            title: "Unreal Engine Programmer",
             company: "Byzantian Interactive, Inc.",
             website: "https://www.byzantian.net/",
             logo: "assets/company/byzantian-interactive-logo.jpg",
