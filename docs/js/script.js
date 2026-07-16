@@ -19,6 +19,10 @@ const skillsTrack = document.querySelector("#skills-track");
 const projectsGrid = document.querySelector("#projects-grid");
 const projectsSeeMore = document.querySelector("#projects-see-more");
 
+const shippedTitleCards = document.querySelectorAll(
+    ".shipped-title-card"
+);
+
 /* Portfolio data */
 if (!window.portfolioData) {
     throw new Error(
@@ -576,6 +580,157 @@ function setupProjectCardLinks() {
     updateProjectCardAccessibility();
 }
 
+/*
+ * Shipped titles on tablet and mobile
+ *
+ * Default: only the normal app icon is visible.
+ * Tap: show the dark overlay, title, downloads,
+ * and store buttons.
+ */
+const shippedTitleMediaQuery =
+    window.matchMedia("(max-width: 1024px)");
+
+function closeShippedTitleCards(
+    exceptCard = null
+) {
+    shippedTitleCards.forEach((card) => {
+        if (card === exceptCard) {
+            return;
+        }
+
+        card.classList.remove("is-active");
+        card.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+    });
+}
+
+function toggleShippedTitleCard(card) {
+    const shouldOpen =
+        !card.classList.contains("is-active");
+
+    closeShippedTitleCards(card);
+
+    card.classList.toggle(
+        "is-active",
+        shouldOpen
+    );
+
+    card.setAttribute(
+        "aria-expanded",
+        String(shouldOpen)
+    );
+}
+
+function updateShippedTitleCards() {
+    shippedTitleCards.forEach((card) => {
+        if (shippedTitleMediaQuery.matches) {
+            card.setAttribute("role", "button");
+            card.setAttribute("tabindex", "0");
+
+            card.setAttribute(
+                "aria-expanded",
+                String(
+                    card.classList.contains(
+                        "is-active"
+                    )
+                )
+            );
+        } else {
+            card.classList.remove("is-active");
+            card.removeAttribute("role");
+            card.removeAttribute("tabindex");
+            card.removeAttribute("aria-expanded");
+        }
+    });
+}
+
+function setupShippedTitleCards() {
+    if (shippedTitleCards.length === 0) {
+        return;
+    }
+
+    shippedTitleCards.forEach((card) => {
+        card.addEventListener(
+            "click",
+            (event) => {
+                if (
+                    !shippedTitleMediaQuery.matches
+                ) {
+                    return;
+                }
+
+                /*
+                 * Let store links work normally.
+                 */
+                if (
+                    event.target.closest(
+                        ".shipped-title-store-link"
+                    )
+                ) {
+                    return;
+                }
+
+                toggleShippedTitleCard(card);
+            }
+        );
+
+        card.addEventListener(
+            "keydown",
+            (event) => {
+                if (
+                    !shippedTitleMediaQuery.matches
+                ) {
+                    return;
+                }
+
+                if (event.target.closest("a")) {
+                    return;
+                }
+
+                if (
+                    event.key !== "Enter" &&
+                    event.key !== " "
+                ) {
+                    return;
+                }
+
+                event.preventDefault();
+                toggleShippedTitleCard(card);
+            }
+        );
+    });
+
+    document.addEventListener(
+        "click",
+        (event) => {
+            if (
+                !shippedTitleMediaQuery.matches
+            ) {
+                return;
+            }
+
+            if (
+                event.target.closest(
+                    ".shipped-title-card"
+                )
+            ) {
+                return;
+            }
+
+            closeShippedTitleCards();
+        }
+    );
+
+    shippedTitleMediaQuery.addEventListener(
+        "change",
+        updateShippedTitleCards
+    );
+
+    updateShippedTitleCards();
+}
+
 /* Footer year */
 function renderCurrentYear() {
     if (dateElement) {
@@ -588,5 +743,8 @@ function renderCurrentYear() {
 renderExperienceList();
 renderSkills();
 renderProjects();
+
 setupProjectCardLinks();
+setupShippedTitleCards();
+
 renderCurrentYear();

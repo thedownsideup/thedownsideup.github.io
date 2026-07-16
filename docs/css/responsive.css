@@ -1,165 +1,298 @@
-/* Responsive layout */
+/* Shipped Titles section */
+
+.shipped-titles {
+    margin: 2rem auto 5rem;
+}
+
+.shipped-titles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 280px);
+    justify-content: center;
+    gap: 1.5rem;
+
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Rounded app-icon card */
+.shipped-title-card {
+    position: relative;
+
+    width: 280px;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+
+    background: #000000;
+    border-radius: 22%;
+
+    color: #ffffff;
+    isolation: isolate;
+}
+
+/* App icon image */
+.shipped-title-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    border-radius: inherit;
+
+    transform: scale(1.02);
+
+    transition: transform 0.4s ease-in-out;
+}
+
+/* Dark overlay */
+.shipped-title-card::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    background: rgba(0, 0, 0, 0.78);
+    border-radius: inherit;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.4s ease-in-out;
+}
+
+/* Information overlay */
+.shipped-title-card .project-info {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 3;
+
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+            opacity 0.4s ease-in-out,
+            visibility 0.4s ease-in-out;
+}
+
+/* Store buttons centered in the card */
+.shipped-title-store-links {
+    position: absolute;
+    top: 47%;
+    left: 50%;
+    z-index: 5;
+
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+
+    width: max-content;
+    margin: 0;
+    padding: 0;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translate(-50%, -50%);
+
+    transition:
+            opacity 0.35s ease,
+            visibility 0.35s ease;
+}
+
+/* Individual store link */
+.shipped-title-store-link {
+    position: relative;
+    z-index: 6;
+
+    display: block;
+    margin: 0;
+    padding: 0;
+
+    border-radius: 6px;
+    cursor: pointer;
+    pointer-events: auto;
+
+    transition:
+            transform 0.25s ease-in-out,
+            filter 0.25s ease-in-out;
+}
+
+.shipped-title-store-link img {
+    display: block;
+
+    width: 135px;
+    height: auto;
+    max-width: none;
+
+    pointer-events: none;
+}
+
+.shipped-title-store-link:hover {
+    transform: translateY(-2px) scale(1.03);
+    filter: brightness(1.08);
+}
+
+.shipped-title-store-link:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 4px;
+}
+
+/* Title and downloads directly below the buttons */
+.shipped-title-card .project-bio {
+    position: absolute !important;
+
+    top: calc(47% + 62px) !important;
+    right: 0 !important;
+    bottom: auto !important;
+    left: 0 !important;
+
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    margin: 0;
+    padding: 0 1rem;
+
+    color: #ffffff;
+    text-align: center;
+    pointer-events: none;
+}
+
+.shipped-title-card .project-bio h3 {
+    margin: 0;
+
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: var(--weight-bold);
+    line-height: 1.5;
+}
+
+.shipped-title-card .project-bio p {
+    margin: 0;
+
+    color: #ffffff;
+    font-size: 0.83rem;
+    line-height: 1.5;
+}
 
 /*
- * Tablet and mobile project links
+ * Desktop hover behavior
  *
- * These rules are deliberately scoped to project-card.
- * They do not affect experience or shipped-title cards.
+ * This only applies to desktop devices with a mouse.
+ */
+@media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+    .shipped-title-card:hover::after,
+    .shipped-title-card:focus-within::after {
+        opacity: 1;
+    }
+
+    .shipped-title-card:hover .shipped-title-image,
+    .shipped-title-card:focus-within .shipped-title-image {
+        transform: scale(1.1);
+    }
+
+    .shipped-title-card:hover .project-info,
+    .shipped-title-card:focus-within .project-info {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .shipped-title-card:hover .shipped-title-store-links,
+    .shipped-title-card:focus-within .shipped-title-store-links {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+}
+
+/*
+ * Tablet and mobile interaction
+ *
+ * The default state shows only the normal app icon.
+ * JavaScript adds .is-active after the card is tapped.
  */
 @media (max-width: 1024px) {
-    .project-card[data-youtube-url] {
+    .shipped-title-card {
         cursor: pointer;
         touch-action: manipulation;
     }
 
-    .project-card[data-youtube-url]:active {
-        transform: scale(0.985);
+    .shipped-title-card.is-active::after {
+        opacity: 1;
     }
 
-    /*
-     * The full card opens YouTube on smaller screens,
-     * so the small YouTube icon is not needed.
-     */
-    .project-card[data-youtube-url] .project-link {
-        display: none;
+    .shipped-title-card.is-active .shipped-title-image {
+        transform: scale(1.1);
     }
 
-    .project-card[data-youtube-url]:focus-visible {
+    .shipped-title-card.is-active .project-info {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .shipped-title-card.is-active .shipped-title-store-links {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .shipped-title-card:focus-visible {
         outline: 3px solid var(--primary-color);
-        outline-offset: 4px;
+        outline-offset: 5px;
     }
 }
 
 /* Tablet */
-@media (max-width: 768px) {
-    .header-container {
-        margin-top: 7rem;
-        text-align: center;
-    }
-
-    .content-text h2 {
-        font-size: 2.5rem;
-    }
-
-    .portfolio-list-item {
-        grid-template-columns:
-            85px minmax(0, 1fr) auto;
-
-        gap: 1rem;
-        padding: 1rem 1.1rem;
-    }
-
-    .portfolio-list-logo {
-        width: 85px;
-        height: 65px;
-    }
-
-    .portfolio-list-logo img {
-        max-width: 80px;
-        max-height: 58px;
+@media (max-width: 900px) {
+    .shipped-titles-grid {
+        grid-template-columns: repeat(2, 280px);
     }
 }
 
 /* Mobile */
 @media (max-width: 600px) {
-    .experience-grid {
-        grid-template-columns: 1fr;
+    .shipped-titles-grid {
+        grid-template-columns: 250px;
     }
 
-    .experience-card {
-        min-height: 270px;
-        padding: 1.6rem;
+    .shipped-title-card {
+        width: 250px;
+        margin: 0 auto;
     }
 
-    .experience-logo img {
-        max-width: 130px;
-        max-height: 65px;
+    .shipped-title-store-links {
+        top: 46%;
     }
 
-    .portfolio-list-item {
-        grid-template-columns: 1fr;
-        justify-items: center;
-
-        gap: 0.8rem;
-        padding: 1.4rem;
-
-        text-align: center;
-    }
-
-    .portfolio-list-item:hover {
-        transform: translateY(-5px);
-    }
-
-    .portfolio-list-logo {
-        width: 100%;
-        height: 65px;
-    }
-
-    .portfolio-list-copy {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .portfolio-list-arrow {
-        display: none;
-    }
-
-    .skills-marquee {
-        mask-image: linear-gradient(
-                to right,
-                transparent,
-                black 3%,
-                black 97%,
-                transparent
-        );
-
-        -webkit-mask-image: linear-gradient(
-                to right,
-                transparent,
-                black 3%,
-                black 97%,
-                transparent
-        );
-    }
-
-    .skills-track {
-        --skills-speed: 42s;
-    }
-
-    .skill-card {
-        width: 205px;
-        min-height: 102px;
-        padding: 1rem;
-    }
-
-    .skill-card-abbreviation {
-        width: 43px;
-        height: 43px;
+    .shipped-title-card .project-bio {
+        top: calc(46% + 62px) !important;
     }
 }
 
 /* Reduced-motion accessibility */
 @media (prefers-reduced-motion: reduce) {
-    .skills-marquee {
-        overflow-x: auto;
-
-        mask-image: none;
-        -webkit-mask-image: none;
-    }
-
-    .skills-track {
-        animation: none;
-    }
-
-    .skills-group[aria-hidden="true"] {
-        display: none;
-    }
-
-    .portfolio-card,
-    .skill-card-abbreviation,
-    .portfolio-list-arrow,
-    .project-card {
+    .shipped-title-image,
+    .shipped-title-card::after,
+    .shipped-title-card .project-info,
+    .shipped-title-store-links,
+    .shipped-title-store-link {
         transition: none;
     }
 }
