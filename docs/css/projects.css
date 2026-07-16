@@ -1,6 +1,9 @@
 /* Project section cards */
 
 .card {
+    position: relative;
+    overflow: hidden;
+
     padding: 1rem;
 
     background-color: var(--card-background);
@@ -15,6 +18,14 @@
     transition:
             box-shadow 0.4s ease-in-out,
             transform 0.4s ease-in-out;
+}
+
+/*
+ * This link covers the entire project card on
+ * mobile and tablet. It stays hidden on desktop.
+ */
+.project-card-mobile-link {
+    display: none;
 }
 
 .card a {

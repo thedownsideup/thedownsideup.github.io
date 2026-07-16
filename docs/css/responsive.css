@@ -1,5 +1,52 @@
 /* Responsive layout */
 
+/*
+ * Mobile and tablet project cards
+ *
+ * At 1024px and below, the invisible YouTube link
+ * covers the entire project card.
+ */
+@media (max-width: 1024px) {
+    .project-card[data-has-youtube="true"] {
+        cursor: pointer;
+        touch-action: manipulation;
+    }
+
+    .project-card-mobile-link {
+        position: absolute;
+        inset: 0;
+        z-index: 20;
+
+        display: block;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+
+        border-radius: inherit;
+    }
+
+    .project-card-mobile-link:hover {
+        transform: none;
+    }
+
+    .project-card-mobile-link:focus-visible {
+        outline: 3px solid var(--primary-color);
+        outline-offset: -4px;
+    }
+
+    /*
+     * The whole card is already the YouTube link,
+     * so the small link icon is unnecessary.
+     */
+    .project-card .project-link {
+        display: none;
+    }
+
+    .project-card:active {
+        transform: scale(0.985);
+    }
+}
+
 /* Tablet */
 @media (max-width: 768px) {
     .header-container {
@@ -12,7 +59,9 @@
     }
 
     .portfolio-list-item {
-        grid-template-columns: 85px minmax(0, 1fr) auto;
+        grid-template-columns:
+            85px minmax(0, 1fr) auto;
+
         gap: 1rem;
         padding: 1rem 1.1rem;
     }
@@ -47,8 +96,10 @@
     .portfolio-list-item {
         grid-template-columns: 1fr;
         justify-items: center;
+
         gap: 0.8rem;
         padding: 1.4rem;
+
         text-align: center;
     }
 
@@ -109,6 +160,7 @@
 @media (prefers-reduced-motion: reduce) {
     .skills-marquee {
         overflow-x: auto;
+
         mask-image: none;
         -webkit-mask-image: none;
     }
@@ -123,7 +175,8 @@
 
     .portfolio-card,
     .skill-card-abbreviation,
-    .portfolio-list-arrow {
+    .portfolio-list-arrow,
+    .project-card {
         transition: none;
     }
 }

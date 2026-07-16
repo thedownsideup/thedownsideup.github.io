@@ -47,7 +47,7 @@ navLinks.forEach((navLink) => {
     navLink.addEventListener("click", closeMobileMenu);
 });
 
-/* Theme switching */
+/* Theme */
 function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
 
@@ -56,85 +56,126 @@ function applyTheme(theme) {
     }
 }
 
+function getSavedTheme() {
+    return localStorage.getItem("theme");
+}
+
+function initializeTheme() {
+    const savedTheme = getSavedTheme();
+
+    if (savedTheme === "dark" || savedTheme === "light") {
+        applyTheme(savedTheme);
+        return;
+    }
+
+    applyTheme("light");
+}
+
 function switchTheme(event) {
-    const selectedTheme = event.target.checked ? "dark" : "light";
+    const selectedTheme = event.target.checked
+        ? "dark"
+        : "light";
 
     applyTheme(selectedTheme);
     localStorage.setItem("theme", selectedTheme);
 }
 
-const savedTheme = localStorage.getItem("theme");
-
-if (savedTheme === "dark" || savedTheme === "light") {
-    applyTheme(savedTheme);
-} else {
-    applyTheme("light");
-}
-
 toggleSwitch?.addEventListener("change", switchTheme);
 
-/* Shared experience markup */
-function createLogoMarkup(experience, containerClass) {
+initializeTheme();
+
+/* Experience logo */
+function createExperienceLogo(experience, containerClass) {
+    const logo = experience.logo || "";
+    const logoAlt =
+        experience.logoAlt ||
+        `${experience.company} logo`;
+
+    const initials = experience.initials || "";
+
     return `
         <div class="${containerClass}">
             <img
-                data-company-logo
-                src="${experience.logo}"
-                alt="${experience.logoAlt}"
+                src="${logo}"
+                alt="${logoAlt}"
+                loading="lazy"
+                data-experience-logo
             />
 
-            <span class="experience-logo-fallback" hidden>
-                ${experience.initials}
+            <span
+                class="experience-logo-fallback"
+                aria-hidden="true"
+            >
+                ${initials}
             </span>
         </div>
     `;
 }
 
-function createCompanyName(experience) {
-    if (!experience.website) {
-        return `
-            <p class="experience-company">
-                ${experience.company}
-            </p>
-        `;
-    }
+function initializeExperienceLogoFallbacks() {
+    const logos = document.querySelectorAll(
+        "[data-experience-logo]"
+    );
 
-    return `
-        <p class="experience-company">
-            <a
-                class="experience-company-link"
-                href="${experience.website}"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit the ${experience.company} website"
-            >
-                ${experience.company}
-                <span class="external-link-icon" aria-hidden="true">↗</span>
-            </a>
-        </p>
-    `;
+    logos.forEach((logo) => {
+        const fallback =
+            logo.parentElement?.querySelector(
+                ".experience-logo-fallback"
+            );
+
+        if (!logo.getAttribute("src")) {
+            logo.style.display = "none";
+
+            if (fallback) {
+                fallback.style.display = "flex";
+            }
+
+            return;
+        }
+
+        logo.addEventListener(
+            "error",
+            () => {
+                logo.style.display = "none";
+
+                if (fallback) {
+                    fallback.style.display = "flex";
+                }
+            },
+            {
+                once: true,
+            }
+        );
+    });
 }
 
-/*
- * Vertical experience cards
- *
- * These are kept in the codebase for possible future use.
- * The current page uses the horizontal experience list.
- */
+/* Vertical experience cards */
+/* These functions remain available, but the current page uses the list. */
 function createExperienceCard(experience) {
+    const website = experience.website || "#";
+
     return `
-        <article class="portfolio-card experience-card">
-            ${createLogoMarkup(experience, "experience-logo")}
+        <article class="experience-card portfolio-card">
+            ${createExperienceLogo(
+        experience,
+        "experience-logo"
+    )}
 
-            <p class="experience-date">
-                ${experience.dates}
-            </p>
+            <div class="experience-card-copy">
+                <p class="experience-card-dates">
+                    ${experience.dates}
+                </p>
 
-            <h3>
-                ${experience.title}
-            </h3>
+                <h3>${experience.title}</h3>
 
-            ${createCompanyName(experience)}
+                <a
+                    href="${website}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    ${experience.company}
+                </a>
+            </div>
         </article>
     `;
 }
@@ -144,67 +185,49 @@ function renderExperienceCards() {
         return;
     }
 
-    experienceGrid.innerHTML = experienceData
-        .map((experience) => createExperienceCard(experience))
-        .join("");
+    experienceGrid.innerHTML =
+        experienceData
+            .map(createExperienceCard)
+            .join("");
 
-    addLogoFallbacks(experienceGrid);
+    initializeExperienceLogoFallbacks();
 }
 
 /* Horizontal experience list */
-function createExperienceListContent(experience) {
-    return `
-        ${createLogoMarkup(experience, "portfolio-list-logo")}
-
-        <div class="portfolio-list-copy">
-            <p class="portfolio-list-date">
-                ${experience.dates}
-            </p>
-
-            <h3>
-                ${experience.title}
-            </h3>
-
-            <p class="portfolio-list-company">
-                ${experience.company}
-            </p>
-        </div>
-
-        ${
-        experience.website
-            ? `
-                    <span
-                        class="portfolio-list-arrow"
-                        aria-hidden="true"
-                    >
-                        ↗
-                    </span>
-                `
-            : ""
-    }
-    `;
-}
-
 function createExperienceListItem(experience) {
-    const content = createExperienceListContent(experience);
-
-    if (!experience.website) {
-        return `
-            <article class="portfolio-card portfolio-list-item">
-                ${content}
-            </article>
-        `;
-    }
+    const website = experience.website || "#";
 
     return `
         <a
-            class="portfolio-card portfolio-list-item"
-            href="${experience.website}"
+            class="portfolio-list-item"
+            href="${website}"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Visit the ${experience.company} website"
+            aria-label="Visit ${experience.company}"
         >
-            ${content}
+            ${createExperienceLogo(
+        experience,
+        "portfolio-list-logo"
+    )}
+
+            <div class="portfolio-list-copy">
+                <p class="portfolio-list-dates">
+                    ${experience.dates}
+                </p>
+
+                <h3>${experience.title}</h3>
+
+                <p class="portfolio-list-company">
+                    ${experience.company}
+                </p>
+            </div>
+
+            <span
+                class="portfolio-list-arrow"
+                aria-hidden="true"
+            >
+                <i class="fas fa-arrow-right"></i>
+            </span>
         </a>
     `;
 }
@@ -214,56 +237,26 @@ function renderExperienceList() {
         return;
     }
 
-    experienceList.innerHTML = experienceData
-        .map((experience) => createExperienceListItem(experience))
-        .join("");
+    experienceList.innerHTML =
+        experienceData
+            .map(createExperienceListItem)
+            .join("");
 
-    addLogoFallbacks(experienceList);
+    initializeExperienceLogoFallbacks();
 }
 
-/* Company logo fallback */
-function showLogoFallback(logo) {
-    logo.hidden = true;
-
-    const fallback = logo.nextElementSibling;
-
-    if (fallback) {
-        fallback.hidden = false;
-    }
-}
-
-function addLogoFallbacks(container) {
-    const companyLogos = container.querySelectorAll("[data-company-logo]");
-
-    companyLogos.forEach((logo) => {
-        logo.addEventListener("error", () => {
-            showLogoFallback(logo);
-        });
-
-        if (logo.complete && logo.naturalWidth === 0) {
-            showLogoFallback(logo);
-        }
-    });
-}
-
-/* Skills marquee */
-function createSkillCard(skill, isDuplicate) {
-    const tabIndex = isDuplicate ? "-1" : "0";
-
+/* Skills */
+function createSkillCard(skill) {
     return `
-        <article
-            class="portfolio-card skill-card"
-            tabindex="${tabIndex}"
-            aria-label="${skill.name}, ${skill.category}"
-        >
-            <span
+        <article class="skill-card">
+            <div
                 class="skill-card-abbreviation"
                 aria-hidden="true"
             >
                 ${skill.abbreviation}
-            </span>
+            </div>
 
-            <div class="skill-card-content">
+            <div class="skill-card-copy">
                 <h3>${skill.name}</h3>
                 <p>${skill.category}</p>
             </div>
@@ -271,46 +264,48 @@ function createSkillCard(skill, isDuplicate) {
     `;
 }
 
-function createSkillsGroup(isDuplicate = false) {
-    const attributes = isDuplicate
+function createSkillsGroup(skills, isDuplicate = false) {
+    const hiddenAttribute = isDuplicate
         ? 'aria-hidden="true"'
-        : 'aria-label="Skills list"';
+        : "";
 
     return `
-        <div class="skills-group" ${attributes}>
-            ${skillsData
-        .map((skill) => createSkillCard(skill, isDuplicate))
-        .join("")}
+        <div
+            class="skills-group"
+            ${hiddenAttribute}
+        >
+            ${skills.map(createSkillCard).join("")}
         </div>
     `;
 }
 
 function renderSkills() {
-    if (!skillsTrack) {
+    if (!skillsTrack || skillsData.length === 0) {
         return;
     }
 
     skillsTrack.innerHTML = `
-        ${createSkillsGroup(false)}
-        ${createSkillsGroup(true)}
+        ${createSkillsGroup(skillsData)}
+        ${createSkillsGroup(skillsData, true)}
     `;
 }
 
-/*
- * Project link
- *
- * If the URL is empty, nothing is rendered.
- * This keeps githubUrl in portfolio-data.js for future use
- * without showing an inactive GitHub icon.
- */
-function createProjectLink(url, iconClass, label) {
-    if (typeof url !== "string" || !url.trim()) {
+/* Projects */
+function createProjectLink(
+    url,
+    iconClass,
+    label
+) {
+    if (
+        typeof url !== "string" ||
+        !url.trim()
+    ) {
         return "";
     }
 
     return `
         <a
-            href="${url}"
+            href="${url.trim()}"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="${label}"
@@ -320,7 +315,27 @@ function createProjectLink(url, iconClass, label) {
     `;
 }
 
-/* Projects */
+function createMobileProjectLink(project) {
+    const youtubeUrl =
+        typeof project.youtubeUrl === "string"
+            ? project.youtubeUrl.trim()
+            : "";
+
+    if (!youtubeUrl) {
+        return "";
+    }
+
+    return `
+        <a
+            class="project-card-mobile-link"
+            href="${youtubeUrl}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Watch ${project.title} on YouTube"
+        ></a>
+    `;
+}
+
 function createProjectCard(project) {
     const githubLink = createProjectLink(
         project.githubUrl,
@@ -334,16 +349,33 @@ function createProjectCard(project) {
         `Watch ${project.title} on YouTube`
     );
 
+    const mobileProjectLink =
+        createMobileProjectLink(project);
+
+    const hasYoutubeLink =
+        typeof project.youtubeUrl === "string" &&
+        project.youtubeUrl.trim();
+
+    const youtubeAttribute = hasYoutubeLink
+        ? 'data-has-youtube="true"'
+        : "";
+
     return `
         <article
-            class="card"
+            class="card project-card"
             style="background-image: url('${project.image}');"
             aria-label="${project.title} project"
+            ${youtubeAttribute}
         >
+            ${mobileProjectLink}
+
             <div class="project-info">
                 <div class="project-bio">
                     <h3>${project.title}</h3>
-                    <p>${project.technologies}</p>
+
+                    <p>
+                        ${project.technologies}
+                    </p>
                 </div>
 
                 <div class="project-link">
@@ -360,28 +392,35 @@ function renderProjects() {
         return;
     }
 
-    projectsGrid.innerHTML = projectsData
-        .map((project) => createProjectCard(project))
-        .join("");
+    projectsGrid.innerHTML =
+        projectsData
+            .map(createProjectCard)
+            .join("");
+
+    const projectsMoreUrl =
+        window.portfolioData.projectsMoreUrl;
 
     if (
         projectsSeeMore &&
-        typeof window.portfolioData.projectsMoreUrl === "string" &&
-        window.portfolioData.projectsMoreUrl.trim()
+        typeof projectsMoreUrl === "string" &&
+        projectsMoreUrl.trim()
     ) {
         projectsSeeMore.href =
-            window.portfolioData.projectsMoreUrl;
+            projectsMoreUrl.trim();
     }
 }
 
 /* Footer year */
 function renderCurrentYear() {
-    if (dateElement) {
-        dateElement.textContent = new Date().getFullYear();
+    if (!dateElement) {
+        return;
     }
+
+    dateElement.textContent =
+        new Date().getFullYear();
 }
 
-/* Initial rendering */
+/* Initial render */
 renderExperienceList();
 renderSkills();
 renderProjects();
