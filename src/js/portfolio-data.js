@@ -51,6 +51,31 @@ window.portfolioData = {
 
     skills: [
         {
+            name: "Software Architecture",
+            category: "Architecture",
+            abbreviation: "SA",
+        },
+        {
+            name: "Procedural Animation",
+            category: "Technical Animation",
+            abbreviation: "PA",
+        },
+        {
+            name: "Gameplay Systems",
+            category: "Systems Programming",
+            abbreviation: "GS",
+        },
+        {
+            name: "Tools Programming",
+            category: "Development Tools",
+            abbreviation: "TP",
+        },
+        {
+            name: "UI Systems Programming",
+            category: "UI Engineering",
+            abbreviation: "UI",
+        },
+        {
             name: "Unreal Engine",
             category: "Game Engine",
             abbreviation: "UE",
@@ -67,58 +92,68 @@ window.portfolioData = {
         },
         {
             name: "C++",
-            category: "Programming",
+            category: "Programming Language",
             abbreviation: "C++",
         },
         {
             name: "C#",
-            category: "Programming",
+            category: "Programming Language",
             abbreviation: "C#",
         },
         {
             name: "Python",
-            category: "Programming",
+            category: "Programming Language",
             abbreviation: "PY",
         },
         {
-            name: "Gameplay Systems",
-            category: "Engineering",
-            abbreviation: "GS",
+            name: "Design Patterns",
+            category: "Architecture",
+            abbreviation: "DP",
         },
         {
-            name: "Tools Programming",
-            category: "Engineering",
-            abbreviation: "TP",
+            name: "Architecture Patterns",
+            category: "MVC · MVP · MVVM · ECS",
+            abbreviation: "AP",
         },
         {
-            name: "Technical Animation",
-            category: "Animation",
-            abbreviation: "TA",
+            name: "SOLID",
+            category: "Software Design",
+            abbreviation: "S",
+        },
+        {
+            name: "Object-Oriented Programming",
+            category: "Software Design",
+            abbreviation: "OOP",
         },
         {
             name: "Control Rig",
-            category: "Animation",
+            category: "Technical Animation",
             abbreviation: "CR",
         },
         {
             name: "Animation Blueprints",
-            category: "Animation",
-            abbreviation: "AB",
+            category: "Technical Animation",
+            abbreviation: "ABP",
         },
         {
-            name: "UI Systems",
-            category: "Engineering",
-            abbreviation: "UI",
+            name: "IK & Animation Chains",
+            category: "Technical Animation",
+            abbreviation: "IK",
         },
         {
-            name: "Performance Optimization",
-            category: "Performance",
-            abbreviation: "OPT",
+            name: "Hybrid Animation",
+            category: "Technical Animation",
+            abbreviation: "HA",
         },
         {
-            name: "Debugging",
-            category: "Engineering",
-            abbreviation: "DBG",
+            name: "Performance Profiling",
+            category: "Optimization",
+            abbreviation: "PROF",
+        },
+        {
+            name: "Root Cause Analysis",
+            category: "Debugging",
+            abbreviation: "RCA",
         },
         {
             name: "Automated Testing",
@@ -126,19 +161,56 @@ window.portfolioData = {
             abbreviation: "AT",
         },
         {
-            name: "Clean Architecture",
-            category: "Architecture",
-            abbreviation: "CA",
-        },
-        {
-            name: "SOLID",
-            category: "Architecture",
-            abbreviation: "S",
-        },
-        {
             name: "Git & GitHub",
-            category: "Workflow",
+            category: "Version Control",
             abbreviation: "GIT",
         },
     ],
+    
+    projects: [
+        {
+            title: "Grid-Based Inventory System",
+            technologies: "Unreal Engine 5, C++, UMG, Data Assets, Interfaces",
+            image: "assets/project/inventory-system.gif",
+            githubUrl: "",
+            youtubeUrl: "https://www.youtube.com/watch?v=t814uDcfCcs",
+        },
+        {
+            title: "Adaptive Procedural Crouch",
+            technologies: "Unreal Engine 5, Control Rig, Animation Blueprints, Traces, Hybrid Animation",
+            image: "assets/project/procedural-duck.gif",
+            githubUrl: "",
+            youtubeUrl: "https://www.youtube.com/watch?v=hYpv832puIc",
+        },
+        {
+            title: "Procedural Pickup & Grab",
+            technologies: "Unreal Engine 5, Control Rig, Animation Blueprints, IK, Hybrid Animation",
+            image: "assets/project/procedural-grab.gif",
+            githubUrl: "",
+            youtubeUrl: "https://www.youtube.com/watch?v=xjIaLfcP67w",
+        },
+        {
+            title: "Procedural Look-At System",
+            technologies: "Unreal Engine 5, Control Rig, Animation Blueprints, Additive Animation",
+            image: "assets/project/follow-object.gif",
+            githubUrl: "",
+            youtubeUrl: "https://www.youtube.com/watch?v=CQPkNN3iSR0",
+        },
+        {
+            title: "Gameplay Ability System",
+            technologies: "Unreal Engine 5, C++, Gameplay Ability System, Gameplay Tags",
+            image: "assets/project/gas-system.gif",
+            githubUrl: "",
+            youtubeUrl: "https://www.youtube.com/watch?v=Zr3XeUIyx8w",
+        },
+        {
+            title: "AI NavMesh Pathfinding Prototype",
+            technologies: "Unity, C#, AI Navigation, NavMesh, Pathfinding",
+            image: "assets/project/ai-navmesh.gif",
+            githubUrl: "",
+            youtubeUrl: "https://www.youtube.com/watch?v=QYx2i5HUPks",
+        },
+    ],
+
+    projectsMoreUrl: "https://www.youtube.com/@maebbcow",
 };

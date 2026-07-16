@@ -2,76 +2,54 @@
 
 .card {
     padding: 1rem;
-    background: var(--card-background);
+
+    background-color: var(--card-background);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
     color: #ffffff;
     border-radius: 5px;
     cursor: pointer;
-    transition: 0.4s ease-in-out;
+
+    transition:
+            box-shadow 0.4s ease-in-out,
+            transform 0.4s ease-in-out;
 }
 
 .card a {
     margin-right: 0.3rem;
+
     color: #ffffff;
     font-size: 1.1rem;
-    transition: 0.25s ease-in-out;
+
+    transition:
+            color 0.25s ease-in-out,
+            transform 0.25s ease-in-out;
+}
+
+.card a:last-child {
+    margin-right: 0;
 }
 
 .card a:hover {
     color: var(--primary-color);
+    transform: translateY(-2px);
 }
 
-.card:hover {
-    box-shadow: inset 0 100px 1000px 10px rgba(0, 0, 0, 0.8);
+.card a:focus-visible {
+    color: var(--primary-color);
+    outline: 2px solid var(--primary-color);
+    outline-offset: 4px;
 }
 
-.card:hover .project-info {
+.card:hover,
+.card:focus-within {
+    box-shadow:
+            inset 0 100px 1000px 10px rgba(0, 0, 0, 0.8);
+}
+
+.card:hover .project-info,
+.card:focus-within .project-info {
     opacity: 1;
-}
-
-/* Project 1 */
-.card:nth-child(1) {
-    background:
-            url("../assets/project/project-one.gif")
-            center center / cover
-            no-repeat;
-}
-
-/* Project 2 */
-.card:nth-child(2) {
-    background:
-            url("../assets/project/project-two.gif")
-            center center / cover
-            no-repeat;
-}
-
-/* Project 3 */
-.card:nth-child(3) {
-    background:
-            url("../assets/project/project-three.gif")
-            center center / cover
-            no-repeat;
-}
-
-/* Project 4 */
-.card:nth-child(4) {
-    background:
-            url("../assets/project/project-four.gif")
-            center center / cover
-            no-repeat;
-}
-
-/* Project 5 */
-.card:nth-child(5) {
-    background:
-            url("../assets/project/project-five.gif")
-            center center / cover
-            no-repeat;
-}
-
-/* Project 6 */
-.card:nth-child(6) {
-    background:
-            url("../assets/project/project-six.gif")
-            center center / cover
-            no-repeat;
 }
